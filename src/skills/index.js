@@ -21,6 +21,8 @@ function discoverSkills() {
   return fs
     .readdirSync(SKILLS_DIR, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
+    // sort alphabetically so the order is deterministic across platforms
+    .sort((a, b) => a.name.localeCompare(b.name))
     .map((entry) => entry.name);
 }
 
@@ -119,19 +121,4 @@ function listSkills() {
 
 /**
  * Get a single skill by name.
- * @param {string} name
- * @returns {object | undefined}
- */
-function getSkill(name) {
-  return getRegistry().get(name);
-}
-
-module.exports = {
-  discoverSkills,
-  loadSkill,
-  parseSkillMetadata,
-  buildRegistry,
-  getRegistry,
-  listSkills,
-  getSkill,
-};
+ 
